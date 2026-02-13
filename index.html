@@ -18,7 +18,6 @@
       --brand:#018aa5;
       --shadow: 0 12px 30px rgba(2,6,23,.10);
       --radius: 16px;
-      --danger:#dc2626;
       --success:#16a34a;
     }
 
@@ -119,7 +118,7 @@
 
     .important{
       margin-top: 14px;
-      color: var(--danger);
+      color: #dc2626;
       font-size: 13px;
       font-weight: 600;
       line-height: 1.5;
@@ -158,11 +157,6 @@
       text-align:center;
     }
 
-    .status.error{
-      color:#b91c1c;
-      font-weight:600;
-    }
-
     .hidden{ display:none; }
 
     /* Flatpickr disabled weekends styling */
@@ -172,6 +166,71 @@
       background:#f8fafc !important;
       cursor:not-allowed !important;
     }
+
+    /* Thank you screen */
+    .thanks{
+      text-align:center;
+      padding: 10px 4px;
+    }
+
+    .thanks-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:56px;
+      height:56px;
+      border-radius:999px;
+      background: rgba(22,163,74,.10);
+      color: var(--success);
+      font-size:30px;
+      font-weight:800;
+      margin-bottom: 12px;
+    }
+
+    .thanks h2{
+      margin: 6px 0 8px;
+      font-size: 22px;
+    }
+
+    .thanks p{
+      margin: 0 auto 14px;
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .summary{
+      margin: 18px auto 0;
+      max-width: 560px;
+      text-align:left;
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .summary .rowline{
+      display:flex;
+      justify-content:space-between;
+      padding: 8px 0;
+      border-bottom:1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    .summary .rowline:last-child{
+      border-bottom:none;
+    }
+
+    .summary .label{
+      color: var(--muted);
+      font-weight:600;
+    }
+
+    .summary .value{
+      font-weight:700;
+      text-align:right;
+    }
   </style>
 </head>
 
@@ -179,9 +238,7 @@
   <div class="wrap">
 
     <div class="header">
-      <!-- UPDATED LOGO -->
       <img class="brand-logo" src="./Honey_logo.png" alt="Honey Legal" />
-
       <div class="title">
         <h1>Request a call back</h1>
         <p>Please enter the required details below and a member of our team will contact you shortly.</p>
@@ -190,77 +247,103 @@
 
     <div class="card">
 
-      <form id="leadForm">
-        <input class="hidden" type="text" id="company" name="company" autocomplete="off" tabindex="-1" />
-        <input type="hidden" name="source" value="activewills-lpa-to-will-upsell" />
+      <div id="formView">
+        <form id="leadForm">
+          <input class="hidden" type="text" id="company" name="company" autocomplete="off" tabindex="-1" />
+          <input type="hidden" name="source" value="activewills-lpa-to-will-upsell" />
 
-        <div class="grid">
-          <div class="row">
-            <label>Full name <span class="required">*</span></label>
-            <input name="full_name" type="text" placeholder="Please enter your full name" required />
+          <div class="grid">
+            <div class="row">
+              <label>Full name <span class="required">*</span></label>
+              <input name="full_name" type="text" placeholder="Please enter your full name" required />
+            </div>
+
+            <div class="row">
+              <label>Email <span class="required">*</span></label>
+              <input name="email" type="email" placeholder="Please enter your email address" required />
+            </div>
+
+            <div class="row">
+              <label>Phone <span class="required">*</span></label>
+              <input name="phone" type="tel" placeholder="Please enter your phone number" required />
+            </div>
+
+            <div class="row">
+              <label>Do you currently have a Will? <span class="required">*</span></label>
+              <select name="has_will" required>
+                <option value="" selected disabled>Select one</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not sure">Not sure</option>
+              </select>
+            </div>
+
+            <div class="row">
+              <label>Preferred callback date <span class="required">*</span></label>
+              <input id="callback_date" name="callback_date" type="text" placeholder="Select a weekday" required />
+            </div>
+
+            <div class="row">
+              <label>Preferred callback time <span class="required">*</span></label>
+              <select name="callback_time" required>
+                <option value="" selected disabled>Select one</option>
+                <option value="09:00 - 13:00">09:00 - 13:00</option>
+                <option value="13:00 - 17:00">13:00 - 17:00</option>
+              </select>
+            </div>
           </div>
 
           <div class="row">
-            <label>Email <span class="required">*</span></label>
-            <input name="email" type="email" placeholder="Please enter your email address" required />
+            <label>Additional details (optional)</label>
+            <textarea name="message" placeholder="Any additional details we should know?"></textarea>
           </div>
 
-          <div class="row">
-            <label>Phone <span class="required">*</span></label>
-            <input name="phone" type="tel" placeholder="Please enter your phone number" required />
+          <div class="important">
+            Our callback service is available Monday to Friday, 09:00 to 17:00.
           </div>
 
-          <div class="row">
-            <label>Do you currently have a Will? <span class="required">*</span></label>
-            <select name="has_will" required>
-              <option value="" selected disabled>Select one</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-              <option value="Not sure">Not sure</option>
-            </select>
+          <button class="btn" type="submit">Request a call back</button>
+
+          <div class="fineprint">
+            By submitting this form you consent to be contacted about your enquiry.
+            Please review our
+            <a href="https://honeylegal.co.uk/privacy-policy/"
+               target="_blank"
+               rel="noopener noreferrer"
+               style="color:#018aa5; font-weight:600; text-decoration:underline;">
+              Privacy Policy
+            </a>
+            to understand how we use your information.
           </div>
 
-          <div class="row">
-            <label>Preferred callback date <span class="required">*</span></label>
-            <input id="callback_date" name="callback_date" type="text" placeholder="Select a weekday" required />
-          </div>
+          <div id="status" class="status"></div>
+        </form>
+      </div>
 
-          <div class="row">
-            <label>Preferred callback time <span class="required">*</span></label>
-            <select name="callback_time" required>
-              <option value="" selected disabled>Select one</option>
-              <option value="09:00 - 13:00">09:00 - 13:00</option>
-              <option value="13:00 - 17:00">13:00 - 17:00</option>
-            </select>
+      <div id="thanksView" class="hidden">
+        <div class="thanks">
+          <div class="thanks-badge">✓</div>
+          <h2>Thank you, we have received your request</h2>
+          <p>
+            A member of the Active Wills team will contact you during your selected time window.
+          </p>
+
+          <div class="summary">
+            <div class="rowline">
+              <div class="label">Callback date</div>
+              <div id="t_callback_date" class="value">-</div>
+            </div>
+            <div class="rowline">
+              <div class="label">Callback time</div>
+              <div id="t_callback_time" class="value">-</div>
+            </div>
+            <div class="rowline">
+              <div class="label">Phone</div>
+              <div id="t_phone" class="value">-</div>
+            </div>
           </div>
         </div>
-
-        <div class="row">
-          <label>Additional details (optional)</label>
-          <textarea name="message" placeholder="Any additional details we should know?"></textarea>
-        </div>
-
-        <div class="important">
-          Important: Our callback service is available Monday to Friday, 09:00 to 17:00.
-          Please store this number 0800 098 7830 so you know when our team is calling.
-        </div>
-
-        <button class="btn" type="submit">Request a call back</button>
-
-        <div class="fineprint">
-          By submitting this form you consent to be contacted about your enquiry.
-          Please review our
-          <a href="https://honeylegal.co.uk/privacy-policy/"
-             target="_blank"
-             rel="noopener noreferrer"
-             style="color:#018aa5; font-weight:600; text-decoration:underline;">
-            Privacy Policy
-          </a>
-          to understand how we use your information.
-        </div>
-
-        <div id="status" class="status"></div>
-      </form>
+      </div>
 
     </div>
   </div>
@@ -277,16 +360,13 @@
       disable: [(date) => (date.getDay() === 0 || date.getDay() === 6)]
     });
 
+    const formView = document.getElementById("formView");
+    const thanksView = document.getElementById("thanksView");
+
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const statusEl = document.getElementById("status");
       statusEl.textContent = "Submitting...";
-
-      const company = document.getElementById("company").value;
-      if (company && company.trim() !== "") {
-        statusEl.textContent = "Thanks.";
-        return;
-      }
 
       const data = Object.fromEntries(new FormData(e.target).entries());
 
@@ -302,7 +382,13 @@
 
         if (!res.ok) throw new Error("Bad response");
 
-        statusEl.textContent = "Submitted successfully. Thank you.";
+        document.getElementById("t_callback_date").textContent = data.callback_date || "-";
+        document.getElementById("t_callback_time").textContent = data.callback_time || "-";
+        document.getElementById("t_phone").textContent = data.phone || "-";
+
+        formView.classList.add("hidden");
+        thanksView.classList.remove("hidden");
+
         e.target.reset();
       } catch (err) {
         statusEl.textContent = "Something went wrong. Please try again.";
