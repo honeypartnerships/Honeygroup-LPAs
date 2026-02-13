@@ -19,6 +19,7 @@
       --shadow: 0 12px 30px rgba(2,6,23,.10);
       --radius: 16px;
       --danger:#dc2626;
+      --success:#16a34a;
     }
 
     body{
@@ -168,6 +169,13 @@
       box-shadow: 0 6px 18px rgba(1,138,165,.25);
     }
 
+    .btn[disabled]{
+      opacity:.7;
+      cursor:not-allowed;
+      transform:none;
+      box-shadow:none;
+    }
+
     .fineprint{
       margin-top: 10px;
       font-size: 12px;
@@ -195,6 +203,94 @@
       background:#f8fafc !important;
       cursor:not-allowed !important;
     }
+
+    /* Thank you screen */
+    .thanks{
+      text-align:center;
+      padding: 10px 4px;
+    }
+
+    .thanks-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:56px;
+      height:56px;
+      border-radius:999px;
+      background: rgba(22,163,74,.10);
+      color: var(--success);
+      font-size:30px;
+      font-weight:800;
+      margin-bottom: 12px;
+    }
+
+    .thanks h2{
+      margin: 6px 0 8px;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .thanks p{
+      margin: 0 auto 14px;
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .summary{
+      margin: 18px auto 0;
+      max-width: 560px;
+      text-align:left;
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .summary .rowline{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding: 8px 0;
+      border-bottom:1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    .summary .rowline:last-child{
+      border-bottom:none;
+    }
+
+    .summary .label{
+      color: var(--muted);
+      font-weight:600;
+    }
+
+    .summary .value{
+      color: var(--text);
+      font-weight:700;
+      text-align:right;
+    }
+
+    .callfrom{
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .callnum{
+      margin-top: 8px;
+      font-size: 18px;
+      font-weight:800;
+      color: var(--danger);
+      letter-spacing: .2px;
+    }
+
+    .btn-secondary{
+      margin-top: 18px;
+      background:#111827;
+      background: linear-gradient(135deg, #111827, #0b1220);
+    }
   </style>
 </head>
 
@@ -213,72 +309,107 @@
     </div>
 
     <div class="card">
-      <form id="leadForm">
 
-        <input class="hidden" type="text" id="company" name="company" autocomplete="off" tabindex="-1" />
+      <!-- FORM VIEW -->
+      <div id="formView">
+        <form id="leadForm">
+          <input class="hidden" type="text" id="company" name="company" autocomplete="off" tabindex="-1" />
+          <input type="hidden" name="source" value="activewills-lpa-to-will-upsell" />
 
-        <div class="grid">
-          <div class="row">
-            <label>Full name <span class="required">*</span></label>
-            <input name="full_name" type="text" placeholder="Please enter your full name" required />
+          <div class="grid">
+            <div class="row">
+              <label>Full name <span class="required">*</span></label>
+              <input name="full_name" type="text" placeholder="Please enter your full name" required />
+            </div>
+
+            <div class="row">
+              <label>Email <span class="required">*</span></label>
+              <input name="email" type="email" placeholder="Please enter your email address" required />
+            </div>
+
+            <div class="row">
+              <label>Phone <span class="required">*</span></label>
+              <input name="phone" type="tel" placeholder="Please enter your phone number" required />
+            </div>
+
+            <div class="row">
+              <label>Do you currently have a Will? <span class="required">*</span></label>
+              <select name="has_will" required>
+                <option value="" selected disabled>Select one</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not sure">Not sure</option>
+              </select>
+            </div>
+
+            <div class="row">
+              <label>Preferred callback date <span class="required">*</span></label>
+              <input id="callback_date" name="callback_date" type="text" placeholder="Select a weekday" required />
+            </div>
+
+            <div class="row">
+              <label>Preferred callback time <span class="required">*</span></label>
+              <select name="callback_time" required>
+                <option value="" selected disabled>Select one</option>
+                <option value="09:00 - 13:00">09:00 - 13:00</option>
+                <option value="13:00 - 17:00">13:00 - 17:00</option>
+              </select>
+            </div>
           </div>
 
           <div class="row">
-            <label>Email <span class="required">*</span></label>
-            <input name="email" type="email" placeholder="Please enter your email address" required />
+            <label>Additional details (optional)</label>
+            <textarea name="message" placeholder="Any additional details we should know?"></textarea>
           </div>
 
-          <div class="row">
-            <label>Phone <span class="required">*</span></label>
-            <input name="phone" type="tel" placeholder="Please enter your phone number" required />
+          <div class="important">
+            Important: Our callback service is available Monday to Friday, 09:00 to 17:00.
+            Please store this number 0800 098 7830 so you know when our team is calling.
           </div>
 
-          <div class="row">
-            <label>Do you currently have a Will? <span class="required">*</span></label>
-            <select name="has_will" required>
-              <option value="" selected disabled>Select one</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-              <option value="Not sure">Not sure</option>
-            </select>
+          <button id="submitBtn" class="btn" type="submit">Request a call back</button>
+
+          <div class="fineprint">
+            By submitting this form you consent to be contacted about your enquiry.
           </div>
 
-          <div class="row">
-            <label>Preferred callback date <span class="required">*</span></label>
-            <input id="callback_date" name="callback_date" type="text" placeholder="Select a weekday" required />
+          <div id="status" class="status"></div>
+        </form>
+      </div>
+
+      <!-- THANK YOU VIEW -->
+      <div id="thanksView" class="hidden">
+        <div class="thanks">
+          <div class="thanks-badge">✓</div>
+          <h2>Thank you, we have received your request</h2>
+          <p>
+            A member of the Active Wills team will contact you during your selected time window.
+          </p>
+
+          <div class="summary">
+            <div class="rowline">
+              <div class="label">Callback date</div>
+              <div id="t_callback_date" class="value">-</div>
+            </div>
+            <div class="rowline">
+              <div class="label">Callback time</div>
+              <div id="t_callback_time" class="value">-</div>
+            </div>
+            <div class="rowline">
+              <div class="label">Phone</div>
+              <div id="t_phone" class="value">-</div>
+            </div>
           </div>
 
-          <div class="row">
-            <label>Preferred callback time <span class="required">*</span></label>
-            <select name="callback_time" required>
-              <option value="" selected disabled>Select one</option>
-              <option value="09:00 - 13:00">09:00 - 13:00</option>
-              <option value="13:00 - 17:00">13:00 - 17:00</option>
-            </select>
-          </div>
+          <div class="callfrom">We will call from:</div>
+          <div class="callnum">0800 098 7830</div>
+
+          <button id="newRequestBtn" class="btn btn-secondary" type="button">
+            Submit another request
+          </button>
         </div>
+      </div>
 
-        <div class="row">
-          <label>Additional details (optional)</label>
-          <textarea name="message" placeholder="Any additional details we should know?"></textarea>
-        </div>
-
-        <div class="important">
-          Important: Our callback service is available Monday to Friday, 09:00 to 17:00.
-          Please store this number 0800 098 7830 so you know when our team is calling.
-        </div>
-
-        <input type="hidden" name="source" value="activewills-lpa-to-will-upsell" />
-
-        <button class="btn" type="submit">Request a call back</button>
-
-        <div class="fineprint">
-          By submitting this form you consent to be contacted about your enquiry.
-        </div>
-
-        <div id="status" class="status"></div>
-
-      </form>
     </div>
   </div>
 
@@ -288,6 +419,7 @@
     const WEBHOOK_URL = "https://ng-honey.app.n8n.cloud/webhook-test/Activewills-upsell";
     const FORM_TOKEN = "9f7c2b4e8a1d6f3c9b0e2a7d5c4f8b1a6e3c9d7b2a4f6e1c8b0d3f5a7e2c9b4";
 
+    // Weekdays only, weekends disabled/greyed out
     flatpickr("#callback_date", {
       dateFormat: "d/m/Y",
       minDate: new Date().fp_incr(1),
@@ -296,20 +428,39 @@
       ]
     });
 
+    const formView = document.getElementById("formView");
+    const thanksView = document.getElementById("thanksView");
+
+    const tDate = document.getElementById("t_callback_date");
+    const tTime = document.getElementById("t_callback_time");
+    const tPhone = document.getElementById("t_phone");
+
+    const submitBtn = document.getElementById("submitBtn");
+
+    document.getElementById("newRequestBtn").addEventListener("click", () => {
+      thanksView.classList.add("hidden");
+      formView.classList.remove("hidden");
+      document.getElementById("status").textContent = "";
+    });
+
     document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const statusEl = document.getElementById("status");
       statusEl.classList.remove("error");
       statusEl.textContent = "Submitting...";
+      submitBtn.disabled = true;
 
+      // Honeypot bot trap
       const company = document.getElementById("company").value;
       if (company && company.trim() !== "") {
         statusEl.textContent = "Thanks.";
+        submitBtn.disabled = false;
         return;
       }
 
-      const data = Object.fromEntries(new FormData(e.target).entries());
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
 
       try {
         const res = await fetch(WEBHOOK_URL, {
@@ -325,15 +476,30 @@
         if (!res.ok) {
           const bodyText = await res.text().catch(() => "");
           statusEl.classList.add("error");
-          statusEl.textContent = `Submit failed (${res.status}). ${bodyText || "Please try again."}`;
+          statusEl.textContent = `Something went wrong. Please try again. (${res.status})`;
+          console.error("Submit failed:", res.status, bodyText);
+          submitBtn.disabled = false;
           return;
         }
 
-        statusEl.textContent = "Submitted successfully. Thank you.";
+        // Populate thank you screen with their selections
+        tDate.textContent = data.callback_date || "-";
+        tTime.textContent = data.callback_time || "-";
+        tPhone.textContent = data.phone || "-";
+
+        // Swap views
+        formView.classList.add("hidden");
+        thanksView.classList.remove("hidden");
+
+        // Reset form for next time
         e.target.reset();
+
       } catch (err) {
         statusEl.classList.add("error");
-        statusEl.textContent = "Submit failed. This is usually a CORS or inactive workflow issue. Please check n8n workflow is Active and CORS headers are enabled.";
+        statusEl.textContent = "Something went wrong. Please try again.";
+        console.error(err);
+      } finally {
+        submitBtn.disabled = false;
       }
     });
   </script>
